@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://d18s3cdq05uem"]
+
+[ext_resource type="Script" uid="uid://d17iudcyf5k2" path="res://client/player/player.gd" id="1_rkbax"]
+[ext_resource type="Texture2D" uid="uid://diogyyvqcxvai" path="res://icon.svg" id="2_rkbax"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rkbax"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1dw6"]
+
+[node name="Player" type="CharacterBody2D" unique_id=575383019]
+disable_mode = 1
+motion_mode = 1
+floor_stop_on_slope = false
+floor_block_on_wall = false
+script = ExtResource("1_rkbax")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=21307364]
+replication_config = SubResource("SceneReplicationConfig_rkbax")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1014995841]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_rkbax")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=779342875]
+shape = SubResource("RectangleShape2D_g1dw6")
+
+[node name="Username" type="Label" parent="." unique_id=149284041]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -23.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "username"
+horizontal_alignment = 1

@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://ch0huohdaycmc"]
+
+[ext_resource type="Script" uid="uid://cmc1usphiserr" path="res://connect_button.gd" id="1_4ignj"]
+[ext_resource type="StyleBox" uid="uid://csol3exyg4fhv" path="res://stylebox.tres" id="1_wosw1"]
+
+[node name="Title" type="Control" unique_id=1370441645]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DisconnectReasonLabel" type="Label" parent="." unique_id=1154320431]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1698867152]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=1656963426]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Join" type="PanelContainer" parent="CenterContainer/HBoxContainer" unique_id=1756556631]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_wosw1")
+
+[node name="Vertical" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Join" unique_id=123899717]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=1851511014]
+layout_mode = 2
+text = "Join server"
+
+[node name="IP" type="LineEdit" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=843804733]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 2
+placeholder_text = "IP (default: 127.0.0.1)"
+
+[node name="Port" type="LineEdit" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=774073830]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 2
+placeholder_text = "Port (default: 19132)"
+
+[node name="Username" type="LineEdit" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=1237119921]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 2
+placeholder_text = "Username"
+max_length = 16
+
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=1562453722 node_paths=PackedStringArray("ip_input", "port_input", "username_input", "failure_label")]
+layout_mode = 2
+text = "Connect"
+script = ExtResource("1_4ignj")
+client_type = 1
+ip_input = NodePath("../IP")
+port_input = NodePath("../Port")
+username_input = NodePath("../Username")
+failure_label = NodePath("../FailureLabel")
+
+[node name="FailureLabel" type="Label" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=2022052426]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+
+[node name="Host" type="PanelContainer" parent="CenterContainer/HBoxContainer" unique_id=310642329]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_wosw1")
+
+[node name="Vertical" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Host" unique_id=1061739812]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=209424201]
+layout_mode = 2
+text = "Host server"
+
+[node name="Port" type="LineEdit" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1702870803]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 2
+placeholder_text = "Port (default: 19132)"
+
+[node name="Username" type="LineEdit" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1664419916]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 2
+placeholder_text = "Username"
+max_length = 16
+
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1205042099 node_paths=PackedStringArray("port_input", "username_input", "failure_label")]
+layout_mode = 2
+text = "Start server
+"
+script = ExtResource("1_4ignj")
+port_input = NodePath("../Port")
+username_input = NodePath("../Username")
+failure_label = NodePath("../FailureLabel")
+
+[node name="FailureLabel" type="Label" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1175182935]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
