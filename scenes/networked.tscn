@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://cakutcx15olce"]
+[gd_scene format=4 uid="uid://cakutcx15olce"]
 
 [ext_resource type="Script" uid="uid://bl8ttf76cd0pe" path="res://client/client.gd" id="1_fvgob"]
 [ext_resource type="PackedScene" uid="uid://d18s3cdq05uem" path="res://client/player/player.tscn" id="2_fvgob"]
 [ext_resource type="Script" uid="uid://ca7f8ru1mg8ey" path="res://disconnect_button.gd" id="2_y3w5k"]
 [ext_resource type="Script" uid="uid://b4toqjl1ct5yc" path="res://server/server.gd" id="4_jivpx"]
+[ext_resource type="TileSet" uid="uid://um5ip70ql0eq" path="res://tile/tileset.tres" id="4_y3w5k"]
 
 [node name="World" type="Node" unique_id=682056448]
 
@@ -15,12 +16,98 @@ player_scene = ExtResource("2_fvgob")
 
 [node name="Players" type="Node2D" parent="Client" unique_id=2054653469]
 
-[node name="EscapeMenu" type="Control" parent="Client" unique_id=1026041272]
+[node name="HUD" type="CanvasLayer" parent="Client" unique_id=1304740439]
+
+[node name="Chat" type="ColorRect" parent="Client/HUD" unique_id=1031297631]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -149.0
+offset_right = 343.0
+grow_vertical = 0
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="ChatEntry" type="LineEdit" parent="Client/HUD/Chat" unique_id=1569949443]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 343.0
+grow_vertical = 0
+placeholder_text = "Chat here..."
+max_length = 80
+keep_editing_on_text_submit = true
+caret_blink = true
+
+[node name="ChatMessages" type="RichTextLabel" parent="Client/HUD/Chat" unique_id=1857416606]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 6.0
+offset_right = -5.0
+offset_bottom = 116.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[color=yellow]Welcome to the server![/color]"
+scroll_following = true
+vertical_alignment = 2
+
+[node name="AwaitingServerMenu" type="Control" parent="Client/HUD" unique_id=1373481182]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Client/HUD/AwaitingServerMenu" unique_id=218088075]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = -33.0
+offset_right = 135.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Waiting for the server to respond..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Client/HUD/AwaitingServerMenu" unique_id=1386819441]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.5
+offset_top = 3.0
+offset_right = 62.5
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+script = ExtResource("2_y3w5k")
+
+[node name="EscapeMenu" type="Control" parent="Client/HUD" unique_id=1026041272]
 visible = false
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="Client/EscapeMenu" unique_id=867725792]
+[node name="Label" type="Label" parent="Client/HUD/EscapeMenu" unique_id=867725792]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -38,7 +125,7 @@ text = "Press escape to return to game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DisonnectButton" type="Button" parent="Client/EscapeMenu" unique_id=1853032082]
+[node name="DisonnectButton" type="Button" parent="Client/HUD/EscapeMenu" unique_id=1853032082]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -54,89 +141,9 @@ grow_vertical = 2
 text = "Disconnect"
 script = ExtResource("2_y3w5k")
 
-[node name="AwaitingServerMenu" type="Control" parent="Client" unique_id=1373481182]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -576.0
-offset_top = -324.0
-offset_right = -576.0
-offset_bottom = -324.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="Client/AwaitingServerMenu" unique_id=218088075]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -135.0
-offset_top = -33.0
-offset_right = 135.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Waiting for the server to respond..."
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="Client/AwaitingServerMenu" unique_id=1386819441]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -62.5
-offset_top = 3.0
-offset_right = 62.5
-offset_bottom = 34.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Back"
-script = ExtResource("2_y3w5k")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="Client" unique_id=1304740439]
-
-[node name="Chat" type="ColorRect" parent="Client/CanvasLayer" unique_id=1031297631]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -149.0
-offset_right = 343.0
-grow_vertical = 0
-color = Color(0, 0, 0, 0.39215687)
-
-[node name="ChatEntry" type="LineEdit" parent="Client/CanvasLayer/Chat" unique_id=1569949443]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 343.0
-grow_vertical = 0
-placeholder_text = "Chat here..."
-max_length = 80
-keep_editing_on_text_submit = true
-caret_blink = true
-
-[node name="ChatMessages" type="RichTextLabel" parent="Client/CanvasLayer/Chat" unique_id=1857416606]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 6.0
-offset_right = -5.0
-offset_bottom = 116.0
-grow_horizontal = 2
-bbcode_enabled = true
-text = "[color=yellow]Welcome to the server![/color]"
-scroll_following = true
-vertical_alignment = 2
+[node name="TileMapLayer" type="TileMapLayer" parent="Client" unique_id=1440073857]
+tile_map_data = PackedByteArray("AAD9/wYAAAABAAAAAAD+/wYAAAABAAAAAAD//wYAAAABAAAAAAAAAAYAAAABAAAAAAABAAYAAAABAAAAAAACAAYAAAABAAAAAAADAAYAAAABAAAAAAD8/wYAAAABAAAAAAD8/wcAAAABAAEAAAD8/wgAAAABAAEAAAD8/wkAAAABAAEAAAD//wkAAAABAAEAAAD//wgAAAABAAEAAAD//wcAAAABAAEAAAD+/wcAAAABAAEAAAD9/wcAAAABAAEAAAD9/wgAAAABAAEAAAD9/wkAAAABAAEAAAD+/wkAAAABAAEAAAD+/wgAAAABAAEAAAAAAAcAAAABAAEAAAAAAAgAAAABAAEAAAAAAAkAAAABAAEAAAABAAkAAAABAAEAAAABAAgAAAABAAEAAAABAAcAAAABAAEAAAACAAcAAAABAAEAAAACAAgAAAABAAEAAAACAAkAAAABAAEAAAADAAkAAAABAAEAAAADAAgAAAABAAEAAAADAAcAAAABAAEAAAD+/wIAAAACAAIAAAABAAIAAAAAAAIAAAACAAIAAAABAAIAAAD9/wIAAAABAAIAAAADAAIAAAABAAIAAAADAAEAAAABAAAAAAACAAEAAAABAAAAAAABAAEAAAAAAAAAAAD+/wEAAAACAAAAAAD9/wEAAAABAAAAAAD8/wIAAAABAAIAAAD8/wEAAAABAAAAAAAEAAYAAAABAAAAAAAFAAYAAAABAAAAAAAGAAYAAAACAAAAAADx/wYAAAAEAAMAAADy/wYAAAACAAAAAAD5/wYAAAAAAAAAAAD6/wYAAAABAAAAAAD7/wYAAAABAAAAAAANAAYAAAAAAAAAAAD4/wcAAAAFAAIAAAD4/wgAAAAFAAMAAAD5/wcAAAAGAAIAAAAMAAcAAAAFAAIAAAAMAAgAAAAFAAMAAAANAAcAAAAGAAIAAADy/wcAAAADAAIAAADz/wcAAAAEAAIAAADz/wgAAAAEAAMAAAAGAAcAAAADAAIAAAAHAAcAAAAEAAIAAAAHAAgAAAAEAAMAAAD0/wgAAAABAAAAAAD1/wgAAAABAAAAAAD2/wgAAAABAAAAAAD3/wgAAAABAAAAAAAIAAgAAAABAAAAAAAJAAgAAAABAAAAAAAKAAgAAAABAAAAAAALAAgAAAABAAAAAAAFAAIAAAABAAIAAAAFAAEAAAABAAAAAAD6/wEAAAABAAAAAAD6/wIAAAABAAIAAAAEAAEAAAABAAAAAAD7/wEAAAABAAAAAAD7/wIAAAABAAIAAAAEAAIAAAABAAIAAADw/wQAAAADAAEAAADw/wUAAAADAAIAAADx/wMAAAAEAAAAAADx/wQAAAAEAAEAAADx/wUAAAAEAAIAAAAOAAMAAAAFAAAAAAAOAAQAAAAFAAEAAAAOAAUAAAAFAAIAAAAOAAYAAAAFAAMAAAAPAAQAAAAGAAEAAAAPAAUAAAAGAAIAAAAMAAMAAAAAAAIAAAAMAAIAAAAAAAAAAADz/wIAAAACAAAAAADz/wMAAAACAAIAAADy/wMAAAABAAIAAAANAAMAAAABAAIAAADx/wkAAAABAAEAAADx/wgAAAABAAEAAADx/wcAAAABAAEAAADw/wcAAAABAAEAAADw/wYAAAABAAEAAADw/wgAAAABAAEAAADw/wkAAAABAAEAAADy/wgAAAABAAEAAADy/wkAAAABAAEAAADz/wkAAAABAAEAAAD0/wkAAAABAAEAAAD1/wkAAAABAAEAAAD2/wkAAAABAAEAAAD3/wkAAAABAAEAAAD4/wkAAAABAAEAAAD5/wkAAAABAAEAAAD5/wgAAAABAAEAAAD6/wgAAAABAAEAAAD6/wcAAAABAAEAAAD7/wcAAAABAAEAAAD7/wgAAAABAAEAAAD7/wkAAAABAAEAAAD6/wkAAAABAAEAAAANAAkAAAABAAEAAAANAAgAAAABAAEAAAAOAAgAAAABAAEAAAAOAAcAAAABAAEAAAAPAAcAAAABAAEAAAAPAAYAAAABAAEAAAAPAAgAAAABAAEAAAAPAAkAAAABAAEAAAAOAAkAAAABAAEAAAAMAAkAAAABAAEAAAALAAkAAAABAAEAAAAKAAkAAAABAAEAAAAJAAkAAAABAAEAAAAIAAkAAAABAAEAAAAHAAkAAAABAAEAAAAGAAkAAAABAAEAAAAGAAgAAAABAAEAAAAFAAgAAAABAAEAAAAFAAcAAAABAAEAAAAEAAcAAAABAAEAAAAEAAgAAAABAAEAAAAEAAkAAAABAAEAAAAFAAkAAAABAAEAAADy/wIAAAABAAAAAAANAAIAAAABAAAAAADv//r/AAACAAEAAADv//v/AAACAAEAAADv//z/AAACAAEAAADv//3/AAACAAEAAADv//7/AAACAAEAAADv////AAACAAEAAADv/wAAAAACAAEAAADv/wEAAAADAAIAAAAQAPr/AAAAAAEAAAAQAPv/AAAAAAEAAAAQAPz/AAAAAAEAAAAQAP3/AAAAAAEAAAAQAP7/AAAAAAEAAAAQAP//AAAAAAEAAAAQAAAAAAAAAAEAAAAQAAEAAAAGAAIAAAAPAAEAAAAFAAIAAAAPAAIAAAAFAAMAAADw/wEAAAAEAAIAAADw/wIAAAAEAAMAAADx/wIAAAABAAAAAAAOAAIAAAABAAAAAAAQAAQAAAABAAEAAAAQAAMAAAABAAEAAAAQAAIAAAABAAEAAAAPAAMAAAABAAEAAAAQAAUAAAABAAEAAAAQAAYAAAABAAEAAAAQAAcAAAABAAEAAAAQAAgAAAABAAEAAAAQAAkAAAABAAEAAADv/wMAAAABAAEAAADv/wIAAAABAAEAAADv/wQAAAABAAEAAADv/wUAAAABAAEAAADv/wYAAAABAAEAAADv/wcAAAABAAEAAADv/wgAAAABAAEAAADv/wkAAAABAAEAAADw/wMAAAABAAEAAAADAP3/AAABAAIAAAACAP3/AAABAAIAAAABAP3/AAABAAIAAAAAAP3/AAABAAIAAAD///3/AAABAAIAAAD+//3/AAABAAIAAAD9//3/AAABAAIAAAD8//3/AAABAAIAAAD7//z/AAAAAAAAAAD7//3/AAAAAAIAAAAEAP3/AAACAAIAAAAEAPz/AAACAAAAAAACAPz/AAABAAAAAAADAPz/AAABAAAAAAABAPz/AAABAAAAAAAAAPz/AAABAAAAAAD///z/AAABAAAAAAD+//z/AAABAAAAAAD9//z/AAABAAAAAAD8//z/AAABAAAAAAAHAAIAAAACAAIAAAAHAAEAAAACAAAAAAAGAAIAAAABAAIAAAAGAAEAAAABAAAAAAD5/wEAAAABAAAAAAD5/wIAAAABAAIAAAD4/wIAAAAAAAIAAAD4/wEAAAAAAAAAAAA=")
+tile_set = ExtResource("4_y3w5k")
 
 [node name="Server" type="Node" parent="." unique_id=1960978760]
 script = ExtResource("4_jivpx")

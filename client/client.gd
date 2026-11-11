@@ -22,14 +22,14 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		return
 	
-	$CanvasLayer/Chat/ChatEntry.text_submitted.connect(
+	$HUD/Chat/ChatEntry.text_submitted.connect(
 		func(text: String):
 			
 			text = text.strip_edges()
 			
 			if text.length() != 0:
 				send_message.rpc(text, false)
-				$CanvasLayer/Chat/ChatEntry.text = ""
+				$HUD/Chat/ChatEntry.text = ""
 	)
 
 func _process(_delta: float) -> void:
@@ -40,21 +40,21 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("escape"):
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			$EscapeMenu.visible = false
-			$CanvasLayer/Chat/ChatEntry.release_focus()
+			$HUD/EscapeMenu.visible = false
+			$HUD/Chat/ChatEntry.release_focus()
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			$EscapeMenu.visible = true
-			$CanvasLayer/Chat/ChatEntry.grab_focus()
+			$HUD/EscapeMenu.visible = true
+			$HUD/Chat/ChatEntry.grab_focus()
 
 @rpc("any_peer", "call_local", "reliable", 0)
 func send_message(msg: String, is_system_msg: bool):
 	
 	if is_system_msg:
-		$CanvasLayer/Chat/ChatMessages.text += "\n[color=yellow]" + msg + "[/color]"
+		$HUD/Chat/ChatMessages.text += "\n[color=yellow]" + msg + "[/color]"
 	else:
 		var sender_username = Network.client_node.id_to_username[multiplayer.get_remote_sender_id()]
-		$CanvasLayer/Chat/ChatMessages.text += "\n[color=gray]<" + sender_username + ">[/color] " + msg
+		$HUD/Chat/ChatMessages.text += "\n[color=gray]<" + sender_username + ">[/color] " + msg
 
 @rpc("any_peer", "call_local", "reliable", 0)
 func spawn_player(username: String):
@@ -90,8 +90,8 @@ func _on_peer_disconnected(id: int):
 func _on_connected_to_server():
 	_connected = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	$CanvasLayer/Chat.visible = true
-	$AwaitingServerMenu.queue_free()
+	$HUD/Chat.visible = true
+	$HUD/AwaitingServerMenu.queue_free()
 	
 	# spawn our player locally
 	spawn_player.rpc_id(multiplayer.get_unique_id(), local_username)
