@@ -24,16 +24,27 @@ func _enter_tree() -> void:
 	# identify if this is the local player
 	is_local = player_id == multiplayer.get_unique_id()
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	
 	if not is_local:
 		return
 		
-	var move := Vector2.ZERO
+	var move: float
 
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		move = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
+		move = Input.get_axis("move_left", "move_right")
 	
-	velocity = 100.0 * move
+	velocity.x = lerp(velocity.x, 300.0 * move, 12.0 * delta)
+	velocity.y += 1200.0 * delta
+	
+	if is_on_floor() and Input.is_action_pressed("jump"):
+		velocity.y = -500.0
+	
+	var prev_velocity := velocity
 
 	move_and_slide()
+	
+	if is_on_floor():
+		velocity = prev_velocity - get_floor_normal() * prev_velocity.dot(get_floor_normal())
+	if is_on_wall():
+		velocity = prev_velocity - get_wall_normal() * prev_velocity.dot(get_wall_normal())

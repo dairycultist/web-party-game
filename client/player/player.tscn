@@ -8,24 +8,37 @@ properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1dw6"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_hk56d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hk56d"]
+size = Vector2(48, 38)
 
 [node name="Player" type="CharacterBody2D" unique_id=575383019]
 disable_mode = 1
-motion_mode = 1
+wall_min_slide_angle = 0.08726646
 floor_stop_on_slope = false
 floor_block_on_wall = false
+floor_max_angle = 1.4835298
 script = ExtResource("1_rkbax")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=21307364]
 replication_config = SubResource("SceneReplicationConfig_rkbax")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1014995841]
-scale = Vector2(0.15, 0.15)
+scale = Vector2(0.38, 0.38)
 texture = ExtResource("2_rkbax")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=779342875]
-shape = SubResource("RectangleShape2D_g1dw6")
+position = Vector2(-14, 14)
+shape = SubResource("CircleShape2D_hk56d")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=452878213]
+position = Vector2(14, 14)
+shape = SubResource("CircleShape2D_hk56d")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="." unique_id=33687527]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_hk56d")
 
 [node name="Username" type="Label" parent="." unique_id=149284041]
 anchors_preset = 7
@@ -34,9 +47,11 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -50.0
-offset_top = -23.0
+offset_top = -29.0
 offset_right = 50.0
+offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_font_sizes/font_size = 8
 text = "username"
 horizontal_alignment = 1
