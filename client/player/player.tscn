@@ -11,7 +11,7 @@ properties/0/replication_mode = 1
 [sub_resource type="CircleShape2D" id="CircleShape2D_hk56d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hk56d"]
-size = Vector2(48, 38)
+size = Vector2(40, 30)
 
 [node name="Player" type="CharacterBody2D" unique_id=575383019]
 disable_mode = 1
@@ -25,15 +25,15 @@ script = ExtResource("1_rkbax")
 replication_config = SubResource("SceneReplicationConfig_rkbax")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1014995841]
-scale = Vector2(0.38, 0.38)
+scale = Vector2(0.31, 0.31)
 texture = ExtResource("2_rkbax")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=779342875]
-position = Vector2(-14, 14)
+position = Vector2(-10, 10)
 shape = SubResource("CircleShape2D_hk56d")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=452878213]
-position = Vector2(14, 14)
+position = Vector2(10, 10)
 shape = SubResource("CircleShape2D_hk56d")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="." unique_id=33687527]
