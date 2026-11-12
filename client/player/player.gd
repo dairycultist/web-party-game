@@ -34,9 +34,20 @@ func _physics_process(delta: float) -> void:
 	var move: float
 
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		
 		move = Input.get_axis("move_left", "move_right")
+		
+		if move:
+			velocity.x = lerp(velocity.x, 300.0 * move, 12.0 * delta)
 	
-	velocity.x = lerp(velocity.x, 300.0 * move, 12.0 * delta)
+	if not move:
+		if is_on_floor():
+			# ground drag
+			velocity.x = lerp(velocity.x, 0.0, 12.0 * delta)
+		else:
+			# air drag
+			velocity.x = lerp(velocity.x, 0.0, 2.0 * delta)
+	
 	velocity.y += 1200.0 * delta
 	
 	if time_since_grounded < 0.2 and Input.is_action_pressed("jump"):

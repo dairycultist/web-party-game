@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dpyy0flp6nxkk"]
+
+[ext_resource type="Script" uid="uid://ve5c3y06nrnj" path="res://tile/bouncepad.gd" id="1_g0xtx"]
+[ext_resource type="Texture2D" uid="uid://br2mn7unjhib3" path="res://tile/bouncepad.png" id="1_ni80v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lxpj2"]
+size = Vector2(32, 32)
+
+[node name="Bouncepad" type="Area2D" unique_id=1333676052]
+gravity_point_center = Vector2(0, -1)
+gravity_direction = Vector2(0, -1)
+gravity = 2358.852
+script = ExtResource("1_g0xtx")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=193527699]
+texture = ExtResource("1_ni80v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1385849097]
+shape = SubResource("RectangleShape2D_lxpj2")
