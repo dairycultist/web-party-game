@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 var is_local: bool
 
-var time_since_grounded: float
+var time_since_grounded: float # coyote time
+var launch_time: float # disables input and drag for when you're flying in the air from a bouncepad
 
 # automatically populated when player is instanced
 var player_id: int
@@ -30,24 +31,24 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_local:
 		return
-		
-	var move: float
 
-	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+	if launch_time > 0.3:
 		
-		move = Input.get_axis("move_left", "move_right")
+		var move: float
 		
-		if move:
-			velocity.x = lerp(velocity.x, 300.0 * move, 12.0 * delta)
-	
-	if not move:
-		if is_on_floor():
-			# ground drag
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			
+			move = Input.get_axis("move_left", "move_right")
+			
+			if move:
+				velocity.x = lerp(velocity.x, 300.0 * move, 12.0 * delta)
+		
+		if not move:
 			velocity.x = lerp(velocity.x, 0.0, 12.0 * delta)
-		else:
-			# air drag
-			velocity.x = lerp(velocity.x, 0.0, 2.0 * delta)
 	
+	launch_time += delta
+	
+	# gravity
 	velocity.y += 1200.0 * delta
 	
 	if time_since_grounded < 0.2 and Input.is_action_pressed("jump"):
