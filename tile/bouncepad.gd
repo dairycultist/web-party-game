@@ -13,3 +13,4 @@ func _on_body_entered(body: Node2D):
 		
 		body.velocity = -bounce_speed * transform.y
 		body.launch_time = 0.0
+		body.global_position = global_position - transform.y * 32.0

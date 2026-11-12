@@ -41,10 +41,10 @@ func _physics_process(delta: float) -> void:
 			move = Input.get_axis("move_left", "move_right")
 			
 			if move:
-				velocity.x = lerp(velocity.x, 300.0 * move, 12.0 * delta)
+				velocity.x = lerp(velocity.x, (1000.0 if is_on_wall() else 300.0) * move, 6.0 * delta)
 		
 		if not move:
-			velocity.x = lerp(velocity.x, 0.0, 12.0 * delta)
+			velocity.x = lerp(velocity.x, 0.0, 6.0 * delta)
 	
 	launch_time += delta
 	

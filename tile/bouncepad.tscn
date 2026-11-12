@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://br2mn7unjhib3" path="res://tile/bouncepad.png" id="1_ni80v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lxpj2"]
-size = Vector2(24, 32)
+size = Vector2(8, 20)
 
 [node name="Bouncepad" type="Area2D" unique_id=1333676052]
 gravity_point_center = Vector2(0, -1)

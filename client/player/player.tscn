@@ -18,7 +18,7 @@ disable_mode = 1
 wall_min_slide_angle = 0.08726646
 floor_stop_on_slope = false
 floor_block_on_wall = false
-floor_max_angle = 1.4835298
+floor_max_angle = 1.0471976
 script = ExtResource("1_rkbax")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=21307364]
