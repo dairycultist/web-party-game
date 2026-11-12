@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://d18s3cdq05uem"]
 
 [ext_resource type="Script" uid="uid://d17iudcyf5k2" path="res://client/player/player.gd" id="1_rkbax"]
-[ext_resource type="Texture2D" uid="uid://diogyyvqcxvai" path="res://icon.svg" id="2_rkbax"]
+[ext_resource type="Texture2D" uid="uid://co36nmv2gfw3q" path="res://client/player/player.png" id="2_hk56d"]
+[ext_resource type="Texture2D" uid="uid://co6rt6vrdrhcf" path="res://client/player/player2.png" id="3_ee1sm"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rkbax"]
 properties/0/path = NodePath(".:position")
@@ -12,6 +13,78 @@ properties/0/replication_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hk56d"]
 size = Vector2(40, 30)
+
+[sub_resource type="Animation" id="Animation_iwtvl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_hk56d")]
+}
+
+[sub_resource type="Animation" id="Animation_172lf"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_hk56d")]
+}
+
+[sub_resource type="Animation" id="Animation_ee1sm"]
+resource_name = "jump"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_ee1sm")]
+}
+
+[sub_resource type="Animation" id="Animation_70tne"]
+resource_name = "run"
+length = 0.19999999999999998
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("2_hk56d"), ExtResource("3_ee1sm")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ufmfy"]
+_data = {
+&"RESET": SubResource("Animation_iwtvl"),
+&"idle": SubResource("Animation_172lf"),
+&"jump": SubResource("Animation_ee1sm"),
+&"run": SubResource("Animation_70tne")
+}
 
 [node name="Player" type="CharacterBody2D" unique_id=575383019]
 disable_mode = 1
@@ -24,9 +97,8 @@ script = ExtResource("1_rkbax")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=21307364]
 replication_config = SubResource("SceneReplicationConfig_rkbax")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1014995841]
-scale = Vector2(0.31, 0.31)
-texture = ExtResource("2_rkbax")
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1014995841]
+texture = ExtResource("2_hk56d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=779342875]
 position = Vector2(-10, 10)
@@ -55,3 +127,6 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 8
 text = "username"
 horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=121277300]
+libraries/ = SubResource("AnimationLibrary_ufmfy")

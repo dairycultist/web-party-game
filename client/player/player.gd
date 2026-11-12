@@ -41,20 +41,32 @@ func _physics_process(delta: float) -> void:
 			move = Input.get_axis("move_left", "move_right")
 			
 			if move:
+				# accelerate faster on a wall to climb up 2 tile ledges
 				velocity.x = lerp(velocity.x, (1000.0 if is_on_wall() else 300.0) * move, 6.0 * delta)
+				
+				$Sprite.flip_h = move < 0.0
 		
 		if not move:
 			velocity.x = lerp(velocity.x, 0.0, 6.0 * delta)
 	
 	launch_time += delta
 	
+	# animation
+	if is_on_floor():
+		$AnimationPlayer.current_animation = "idle" if abs(velocity.x) < 4.0 else "run"
+		$AnimationPlayer.speed_scale = pow(abs(velocity.x) / 300.0, 0.2)
+	else:
+		$AnimationPlayer.current_animation = "jump"
+	
 	# gravity
 	velocity.y += 1200.0 * delta
 	
+	# jump
 	if time_since_grounded < 0.2 and Input.is_action_pressed("jump"):
 		velocity.y = -500.0
 		time_since_grounded = 0.2
 	
+	# move and redirect velocity along normal
 	var prev_velocity := velocity
 
 	move_and_slide()
