@@ -47,6 +47,14 @@ func _process(_delta: float) -> void:
 			$HUD/EscapeMenu.visible = true
 			$HUD/Chat/ChatEntry.grab_focus()
 
+@rpc("any_peer", "call_remote", "reliable", 0)
+func trigger_out_of_round():
+	$Camera.following = false
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func trigger_into_round():
+	$Camera.following = true
+
 @rpc("any_peer", "call_local", "reliable", 0)
 func send_message(msg: String, is_system_msg: bool):
 	

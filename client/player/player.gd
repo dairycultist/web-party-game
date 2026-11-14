@@ -1,11 +1,5 @@
 extends CharacterBody2D
 
-# wario ware with a little move or die
-# FLEE! / STAB!
-# ASCEND!
-# PAINT!
-# STACK!
-
 var is_local: bool
 
 var players_node: Node2D
