@@ -50,10 +50,12 @@ func _process(_delta: float) -> void:
 @rpc("any_peer", "call_remote", "reliable", 0)
 func trigger_out_of_round():
 	$Camera.following = false
+	$HUD/Scoreboard.visible = true
 
 @rpc("any_peer", "call_remote", "reliable", 0)
 func trigger_into_round():
 	$Camera.following = true
+	$HUD/Scoreboard.visible = false
 
 @rpc("any_peer", "call_local", "reliable", 0)
 func send_message(msg: String, is_system_msg: bool):
