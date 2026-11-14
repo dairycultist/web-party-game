@@ -7,8 +7,6 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D):
 	
-	print(body)
-	
 	if body is CharacterBody2D:
 		
 		body.velocity = -bounce_speed * transform.y

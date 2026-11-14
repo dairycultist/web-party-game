@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
-# TODO if not local, delete bottom colliders (so that you can stand on other players without blocking their jump)
 # wario ware, move or die, duck game...
 
 var is_local: bool
+
+var players_node: Node2D
+var riders: Array[CharacterBody2D]
 
 var camera: Camera2D
 
@@ -35,6 +37,26 @@ func _enter_tree() -> void:
 	if is_local:
 		camera = Network.client_node.get_node("Camera")
 		camera.target = self
+
+func _ready() -> void:
+	
+	players_node = get_parent()
+	
+	# if we detect another player standing on us, add them to a list of riders.
+	# we parent them to us when moving, and then unparent them afterwards (since
+	# networking needs consistent nodepaths) so that they don't prevent us from
+	# jumping by being above us
+	$RiderDetector.body_entered.connect(func (body: Node2D):
+		
+		if body is CharacterBody2D and body != self:
+			riders.push_back(body)
+	)
+	
+	$RiderDetector.body_exited.connect(func (body: Node2D):
+		
+		if riders.has(body):
+			riders.remove_at(riders.find(body))
+	)
 
 func _physics_process(delta: float) -> void:
 	
@@ -81,7 +103,19 @@ func _physics_process(delta: float) -> void:
 	# move and redirect velocity along normal
 	var prev_velocity := velocity
 
+	# before moving, temporarily parent all riders to us, turn off their collision,
+	# and place them directly on top of us (networking may have synched their y
+	# to put them where is now inside of us)
+	for rider in riders:
+		rider.reparent(self)
+		rider.collision_layer = 0
+		rider.position.y = -38
+
 	move_and_slide()
+	
+	for rider in riders:
+		rider.reparent(players_node)
+		rider.collision_layer = 1
 	
 	if is_on_wall():
 		velocity = prev_velocity - get_wall_normal() * prev_velocity.dot(get_wall_normal())

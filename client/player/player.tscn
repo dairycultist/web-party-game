@@ -5,18 +5,21 @@
 [ext_resource type="Texture2D" uid="uid://co6rt6vrdrhcf" path="res://client/player/player2.png" id="3_ee1sm"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rkbax"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath("Sprite:flip_h")
 properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("Sprite:flip_h")
+properties/0/replication_mode = 2
+properties/1/path = NodePath("AnimationPlayer:current_animation")
 properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath("AnimationPlayer:current_animation")
+properties/1/replication_mode = 2
+properties/2/path = NodePath("AnimationPlayer:speed_scale")
 properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath("AnimationPlayer:speed_scale")
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:position:x")
 properties/3/spawn = true
-properties/3/replication_mode = 1
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:position:y")
+properties/4/spawn = true
+properties/4/replication_mode = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hk56d"]
 
@@ -95,12 +98,16 @@ _data = {
 &"run": SubResource("Animation_70tne")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lxpj2"]
+size = Vector2(40, 5)
+
 [node name="Player" type="CharacterBody2D" unique_id=575383019]
 disable_mode = 1
 wall_min_slide_angle = 0.08726646
 floor_stop_on_slope = false
 floor_block_on_wall = false
 floor_max_angle = 1.0471976
+platform_on_leave = 2
 script = ExtResource("1_rkbax")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=21307364]
@@ -109,15 +116,15 @@ replication_config = SubResource("SceneReplicationConfig_rkbax")
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1014995841]
 texture = ExtResource("2_hk56d")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=779342875]
+[node name="BottomCollider1" type="CollisionShape2D" parent="." unique_id=779342875]
 position = Vector2(-10, 10)
 shape = SubResource("CircleShape2D_hk56d")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=452878213]
+[node name="BottomCollider2" type="CollisionShape2D" parent="." unique_id=452878213]
 position = Vector2(10, 10)
 shape = SubResource("CircleShape2D_hk56d")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="." unique_id=33687527]
+[node name="TopCollider" type="CollisionShape2D" parent="." unique_id=33687527]
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_hk56d")
 
@@ -139,3 +146,9 @@ horizontal_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=121277300]
 libraries/ = SubResource("AnimationLibrary_ufmfy")
+
+[node name="RiderDetector" type="Area2D" parent="." unique_id=1524225206]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RiderDetector" unique_id=914389115]
+position = Vector2(0, -21)
+shape = SubResource("RectangleShape2D_lxpj2")
