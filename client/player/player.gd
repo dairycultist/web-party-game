@@ -6,8 +6,12 @@ var is_local: bool
 
 var players_node: Node2D
 var riders: Array[CharacterBody2D]
+var riding: CharacterBody2D
+
+@export var x_position: float
+@export var x_riding_position: float
 @export var y_position: float
-var syncing_y_position: bool = true
+# technically, y_riding_position is always -38
 
 var camera: Camera2D
 
@@ -49,29 +53,34 @@ func _ready() -> void:
 		return
 	
 	# if we land on another player, tell their client to add us to their list of riders
+	# and to update our remote player to be riding them
 	$RidingDetector.body_entered.connect(func (body: Node2D):
 		
 		if body is CharacterBody2D and body != self:
-			body._add_player_as_rider.rpc_id(body.player_id, get_path())
+			riding = body
+			# we also send the x_riding_position in the rpc so that it doesn't
+			# use the old value before we can get the new value to it
+			x_riding_position = global_position.x - riding.global_position.x
+			body._add_player_as_rider.rpc_id(body.player_id, get_path(), x_riding_position)
 	)
 	
 	# similar for when we get off of them
 	$RidingDetector.body_exited.connect(func (body: Node2D):
 		
 		if body is CharacterBody2D and body != self:
+			riding = null
 			body._remove_player_as_rider.rpc_id(body.player_id, get_path())
 	)
 
 @rpc("any_peer", "call_remote", "reliable", 0)
-func _add_player_as_rider(player: NodePath):
+func _add_player_as_rider(player: NodePath, players_x_riding_position: float):
 	
 	var player_node := get_node(player)
 	
 	riders.push_back(player_node)
 	
-	# also turn off their vertical position sync; we'll handle that ourselves
-	# while they're on top of us (makes it look slightly better, otherwise kinda jittery)
-	player_node.syncing_y_position = false
+	player_node.x_riding_position = players_x_riding_position
+	player_node.riding = self
 
 @rpc("any_peer", "call_remote", "reliable", 0)
 func _remove_player_as_rider(player: NodePath):
@@ -81,18 +90,29 @@ func _remove_player_as_rider(player: NodePath):
 	if riders.has(player_node):
 		riders.remove_at(riders.find(player_node))
 	
-	player_node.syncing_y_position = true
+	player_node.riding = null
 
 func _physics_process(delta: float) -> void:
 	
 	if not is_local:
 		
-		# we're syncing the y position on a proxy variable so that we can
-		# disable syncing when a remote player is riding the local player
-		if syncing_y_position:
+		# we're syncing position on a proxy variable so that we can change how
+		# position is synced when riding another player (otherwise looks kinda
+		# jittery/laggy from the ridden's perspective)
+		# 1. when riding, y position is determined for the ridden by the ridden
+		# 2. when riding, x position is local to the ridden instead of global
+		# not the best explanation but I'll make these comments better later
+		if riding:
+			global_position.x = x_riding_position + riding.global_position.x
+		else:
+			global_position.x = x_position
 			global_position.y = y_position
 		return
 	
+	if riding:
+		x_riding_position = global_position.x - riding.global_position.x
+	
+	x_position = global_position.x
 	y_position = global_position.y
 
 	# assuming we aren't currently being launched by a bouncepad, handle movement

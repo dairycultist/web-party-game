@@ -14,14 +14,15 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath("AnimationPlayer:speed_scale")
 properties/2/spawn = true
 properties/2/replication_mode = 2
-properties/3/path = NodePath(".:position:x")
+properties/3/path = NodePath(".:x_position")
 properties/3/spawn = true
-properties/3/replication_mode = 2
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ee1sm"]
-properties/0/path = NodePath(".:y_position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:x_riding_position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:y_position")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hk56d"]
 
@@ -114,9 +115,6 @@ script = ExtResource("1_rkbax")
 
 [node name="Sync" type="MultiplayerSynchronizer" parent="." unique_id=21307364]
 replication_config = SubResource("SceneReplicationConfig_rkbax")
-
-[node name="SyncYPosition" type="MultiplayerSynchronizer" parent="." unique_id=724993281]
-replication_config = SubResource("SceneReplicationConfig_ee1sm")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1014995841]
 texture = ExtResource("2_hk56d")
