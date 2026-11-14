@@ -61,7 +61,7 @@ func _end_round():
 	pass
 
 @rpc("any_peer", "call_remote", "reliable", 0)
-func _start_round():
+func _start_round(): # should pass what roundScene to load and where to place the client's player
 	pass
 
 # need to consume RPCs clients send between each other even if we do nothing with them
