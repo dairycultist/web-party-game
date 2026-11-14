@@ -46,18 +46,34 @@ func _ready() -> void:
 	if not is_local:
 		return
 	
-	# if we detect another player standing on us, add them to a list of riders
-	$RiderDetector.body_entered.connect(func (body: Node2D):
+	# if we land on another player, tell their client to add us to their list of riders
+	$RidingDetector.body_entered.connect(func (body: Node2D):
 		
 		if body is CharacterBody2D and body != self:
-			riders.push_back(body)
+			body._add_player_as_rider.rpc_id(body.player_id, get_path())
 	)
 	
-	$RiderDetector.body_exited.connect(func (body: Node2D):
+	# similar for when we get off of them
+	$RidingDetector.body_exited.connect(func (body: Node2D):
 		
-		if riders.has(body):
-			riders.remove_at(riders.find(body))
+		if body is CharacterBody2D and body != self:
+			body._remove_player_as_rider.rpc_id(body.player_id, get_path())
 	)
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _add_player_as_rider(player: NodePath):
+	
+	riders.push_back(get_node(player))
+	# TODO also turn off their vertical position sync; we'll handle that ourselves
+	# while they're on top of us (makes it look slightly better)
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _remove_player_as_rider(player: NodePath):
+	
+	var player_node := get_node(player)
+	
+	if riders.has(player_node):
+		riders.remove_at(riders.find(player_node))
 
 func _physics_process(delta: float) -> void:
 	

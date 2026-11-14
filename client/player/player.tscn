@@ -147,8 +147,8 @@ horizontal_alignment = 1
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=121277300]
 libraries/ = SubResource("AnimationLibrary_ufmfy")
 
-[node name="RiderDetector" type="Area2D" parent="." unique_id=1524225206]
+[node name="RidingDetector" type="Area2D" parent="." unique_id=1524225206]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RiderDetector" unique_id=914389115]
-position = Vector2(0, -21)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RidingDetector" unique_id=914389115]
+position = Vector2(0, 23)
 shape = SubResource("RectangleShape2D_lxpj2")
