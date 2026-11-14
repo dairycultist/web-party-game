@@ -48,7 +48,7 @@ func _process(_delta: float) -> void:
 			$HUD/Chat/ChatEntry.grab_focus()
 
 @rpc("any_peer", "call_remote", "reliable", 0)
-func _end_round():
+func _end_round(_next_scene_to_preload, _player_start_x: float, _player_start_y: float):
 	$RoundAnimation.current_animation = "end_round"
 
 @rpc("any_peer", "call_remote", "reliable", 0)

@@ -321,8 +321,7 @@ offset_right = 99.0
 offset_bottom = -101.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "score/ranking would be shown here but we haven't added it yet
-maybe a cool animation too"
+text = "score/ranking would be shown here but we haven't added it yet"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Client/HUD" unique_id=1813064944]
 replication_config = SubResource("SceneReplicationConfig_dw0sb")
