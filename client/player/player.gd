@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+# TODO nicer camera (slightly zoomed in and pans to look at you)
+# TODO if not local, delete bottom colliders (so that you can stand on other players without blocking their jump)
+# wario ware, move or die, duck game...
+
 var is_local: bool
 
 var time_since_grounded: float # coyote time
@@ -43,13 +47,16 @@ func _physics_process(delta: float) -> void:
 			if move:
 				# accelerate faster on a wall to climb up 2 tile ledges
 				velocity.x = lerp(velocity.x, (1000.0 if is_on_wall() else 300.0) * move, 6.0 * delta)
-				
-				$Sprite.flip_h = move < 0.0
 		
 		if not move:
 			velocity.x = lerp(velocity.x, 0.0, 6.0 * delta)
 	
 	launch_time += delta
+	
+	if velocity.x < -1:
+		$Sprite.flip_h = true
+	elif velocity.x > 1:
+		$Sprite.flip_h = false
 	
 	# animation
 	if is_on_floor():

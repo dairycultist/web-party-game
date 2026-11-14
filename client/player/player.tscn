@@ -8,11 +8,20 @@
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath("Sprite:flip_h")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AnimationPlayer:current_animation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("AnimationPlayer:speed_scale")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hk56d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hk56d"]
-size = Vector2(40, 30)
+size = Vector2(40, 28)
 
 [sub_resource type="Animation" id="Animation_iwtvl"]
 length = 0.001
@@ -63,7 +72,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_70tne"]
 resource_name = "run"
-length = 0.19999999999999998
+length = 0.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -109,7 +118,7 @@ position = Vector2(10, 10)
 shape = SubResource("CircleShape2D_hk56d")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="." unique_id=33687527]
-position = Vector2(0, -5)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_hk56d")
 
 [node name="Username" type="Label" parent="." unique_id=149284041]
