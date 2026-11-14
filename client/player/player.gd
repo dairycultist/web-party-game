@@ -6,6 +6,8 @@ var is_local: bool
 
 var players_node: Node2D
 var riders: Array[CharacterBody2D]
+@export var y_position: float
+var syncing_y_position: bool = true
 
 var camera: Camera2D
 
@@ -63,9 +65,13 @@ func _ready() -> void:
 @rpc("any_peer", "call_remote", "reliable", 0)
 func _add_player_as_rider(player: NodePath):
 	
-	riders.push_back(get_node(player))
-	# TODO also turn off their vertical position sync; we'll handle that ourselves
-	# while they're on top of us (makes it look slightly better)
+	var player_node := get_node(player)
+	
+	riders.push_back(player_node)
+	
+	# also turn off their vertical position sync; we'll handle that ourselves
+	# while they're on top of us (makes it look slightly better, otherwise kinda jittery)
+	player_node.syncing_y_position = false
 
 @rpc("any_peer", "call_remote", "reliable", 0)
 func _remove_player_as_rider(player: NodePath):
@@ -74,11 +80,20 @@ func _remove_player_as_rider(player: NodePath):
 	
 	if riders.has(player_node):
 		riders.remove_at(riders.find(player_node))
+	
+	player_node.syncing_y_position = true
 
 func _physics_process(delta: float) -> void:
 	
 	if not is_local:
+		
+		# we're syncing the y position on a proxy variable so that we can
+		# disable syncing when a remote player is riding the local player
+		if syncing_y_position:
+			global_position.y = y_position
 		return
+	
+	y_position = global_position.y
 
 	# assuming we aren't currently being launched by a bouncepad, handle movement
 	if launch_time > 0.3:
