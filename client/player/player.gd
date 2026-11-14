@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
-# TODO nicer camera (slightly zoomed in and pans to look at you)
 # TODO if not local, delete bottom colliders (so that you can stand on other players without blocking their jump)
 # wario ware, move or die, duck game...
 
 var is_local: bool
+
+var camera: Camera2D
 
 var time_since_grounded: float # coyote time
 var launch_time: float # disables input and drag for when you're flying in the air from a bouncepad
@@ -30,6 +31,10 @@ func _enter_tree() -> void:
 	
 	# identify if this is the local player
 	is_local = player_id == multiplayer.get_unique_id()
+	
+	if is_local:
+		camera = Network.client_node.get_node("Camera")
+		camera.target = self
 
 func _physics_process(delta: float) -> void:
 	

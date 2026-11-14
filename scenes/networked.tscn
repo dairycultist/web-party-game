@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bl8ttf76cd0pe" path="res://client/client.gd" id="1_fvgob"]
 [ext_resource type="PackedScene" uid="uid://d18s3cdq05uem" path="res://client/player/player.tscn" id="2_fvgob"]
 [ext_resource type="Script" uid="uid://ca7f8ru1mg8ey" path="res://disconnect_button.gd" id="2_y3w5k"]
+[ext_resource type="Script" uid="uid://b6yph2bkb7hsg" path="res://scenes/camera.gd" id="3_jivpx"]
 [ext_resource type="Script" uid="uid://b4toqjl1ct5yc" path="res://server/server.gd" id="4_jivpx"]
 [ext_resource type="TileSet" uid="uid://um5ip70ql0eq" path="res://tile/tileset.tres" id="4_y3w5k"]
 [ext_resource type="PackedScene" uid="uid://dpyy0flp6nxkk" path="res://tile/bouncepad.tscn" id="5_dw0sb"]
@@ -13,7 +14,8 @@
 script = ExtResource("1_fvgob")
 player_scene = ExtResource("2_fvgob")
 
-[node name="Camera2D" type="Camera2D" parent="Client" unique_id=521663002]
+[node name="Camera" type="Camera2D" parent="Client" unique_id=521663002]
+script = ExtResource("3_jivpx")
 
 [node name="Players" type="Node2D" parent="Client" unique_id=2054653469]
 
