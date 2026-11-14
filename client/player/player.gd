@@ -1,6 +1,10 @@
 extends CharacterBody2D
 
-# wario ware, move or die, duck game...
+# wario ware with a little move or die
+# FLEE! / STAB!
+# ASCEND!
+# PAINT!
+# STACK!
 
 var is_local: bool
 
@@ -127,6 +131,11 @@ func _physics_process(delta: float) -> void:
 			if move:
 				# accelerate faster on a wall to climb up 2 tile ledges
 				velocity.x = lerp(velocity.x, (1000.0 if is_on_wall() else 300.0) * move, 6.0 * delta)
+			
+			# jump
+			if time_since_grounded < 0.2 and Input.is_action_pressed("jump"):
+				velocity.y = -500.0
+				time_since_grounded = 0.2
 		
 		if not move:
 			velocity.x = lerp(velocity.x, 0.0, 6.0 * delta)
@@ -135,11 +144,6 @@ func _physics_process(delta: float) -> void:
 	
 	# gravity
 	velocity.y += 1200.0 * delta
-	
-	# jump
-	if time_since_grounded < 0.2 and Input.is_action_pressed("jump"):
-		velocity.y = -500.0
-		time_since_grounded = 0.2
 
 	# before moving, temporarily turn off the collision of all riders so we
 	# don't hit them when jumping
