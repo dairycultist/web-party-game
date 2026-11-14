@@ -48,14 +48,12 @@ func _process(_delta: float) -> void:
 			$HUD/Chat/ChatEntry.grab_focus()
 
 @rpc("any_peer", "call_remote", "reliable", 0)
-func trigger_out_of_round():
-	$Camera.following = false
-	$HUD/Scoreboard.visible = true
+func _end_round():
+	$RoundAnimation.current_animation = "end_round"
 
 @rpc("any_peer", "call_remote", "reliable", 0)
-func trigger_into_round():
-	$Camera.following = true
-	$HUD/Scoreboard.visible = false
+func _start_round():
+	$RoundAnimation.current_animation = "start_round"
 
 @rpc("any_peer", "call_local", "reliable", 0)
 func send_message(msg: String, is_system_msg: bool):
