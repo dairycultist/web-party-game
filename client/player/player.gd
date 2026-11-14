@@ -29,6 +29,7 @@ func _enter_tree() -> void:
 		collision_mask = 0
 		return
 	
+	# decorate the player for the client!
 	$Username.text = player_username
 	
 	# identify if this is the local player
@@ -63,6 +64,7 @@ func _physics_process(delta: float) -> void:
 	if not is_local:
 		return
 
+	# assuming we aren't currently being launched by a bouncepad, handle movement
 	if launch_time > 0.3:
 		
 		var move: float
@@ -80,18 +82,6 @@ func _physics_process(delta: float) -> void:
 	
 	launch_time += delta
 	
-	if velocity.x < -1:
-		$Sprite.flip_h = true
-	elif velocity.x > 1:
-		$Sprite.flip_h = false
-	
-	# animation
-	if is_on_floor():
-		$AnimationPlayer.current_animation = "idle" if abs(velocity.x) < 4.0 else "run"
-		$AnimationPlayer.speed_scale = pow(abs(velocity.x) / 300.0, 0.2)
-	else:
-		$AnimationPlayer.current_animation = "jump"
-	
 	# gravity
 	velocity.y += 1200.0 * delta
 	
@@ -99,23 +89,24 @@ func _physics_process(delta: float) -> void:
 	if time_since_grounded < 0.2 and Input.is_action_pressed("jump"):
 		velocity.y = -500.0
 		time_since_grounded = 0.2
-	
-	# move and redirect velocity along normal
-	var prev_velocity := velocity
 
 	# before moving, temporarily turn off the collision of all riders so we
 	# don't hit them when jumping
 	for rider in riders:
 		rider.collision_layer = 0
 
+	# move
+	var prev_velocity := velocity
 	move_and_slide()
 	
 	# reenable the collision of riders, and place them directly on top of us
-	# (networking may have synced their y to put them where is now inside of us)
+	# (networking may have synced their y to put them where is now inside of us,
+	# and we don't want them to fall outside the detection of $RiderDetector)
 	for rider in riders:
 		rider.collision_layer = 1
 		rider.global_position.y = global_position.y - 38
 	
+	# instead of stopping on a collision, redirect velocity along normal
 	if is_on_wall():
 		velocity = prev_velocity - get_wall_normal() * prev_velocity.dot(get_wall_normal())
 	
@@ -124,3 +115,15 @@ func _physics_process(delta: float) -> void:
 		time_since_grounded = 0.0
 	else:
 		time_since_grounded += delta
+	
+	# animation
+	if velocity.x < -1:
+		$Sprite.flip_h = true
+	elif velocity.x > 1:
+		$Sprite.flip_h = false
+	
+	if is_on_floor():
+		$AnimationPlayer.current_animation = "idle" if abs(velocity.x) < 4.0 else "run"
+		$AnimationPlayer.speed_scale = pow(abs(velocity.x) / 300.0, 0.2)
+	else:
+		$AnimationPlayer.current_animation = "jump"
